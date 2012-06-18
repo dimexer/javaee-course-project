@@ -1,0 +1,44 @@
+div.clear {
+	clear: both;
+}
+
+#container {
+	width: 800px;
+	margin: 0 auto;
+	border: 1px solid #D6D6D6;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+#header {
+	width: 100p;
+	border-bottom: 1px solid #D6D6D6;
+	padding-bottom: 15px;
+}
+
+#logo {
+	width: 100p;
+	font-size: 32px;
+	color: red;
+	text-align: center;
+	margin-bottom: 15px;
+	font-size: 32px;
+}
+
+#left {
+	height: 100%;
+	width: 130px;
+	border-right: 1px solid #D6D6D6;
+	float: left;
+}
+
+#right {
+	height: 100%;
+	float: left;
+}
+
+#topmenu {
+	width: 100p;
+	font-size: 14px;
+	text-align: left;
+}

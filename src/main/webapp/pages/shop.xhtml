@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<ui:composition template="../WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:outputText
+			value="You are now in shop: #{shopController.currentShop.name}" />
+		<br />
+		<br />
+		<div class="clear"/>
+		<div id="main">
+			<div id="left" >
+				<h:outputText style="font-weight: bold;" value="Categories:" /><br/>
+				<ui:repeat var="cat"
+					value="#{shopController.currentShop.categories}">
+					<h:outputText value="#{cat.name}" />
+					<br />
+					<f:subview rendered="#{!empty cat.subcategories}">
+						<ui:repeat var="scat" value="#{cat.subcategories}">
+							<h:outputText style="margin-left:15px;" value="#{scat.name}" />
+							<br />
+						</ui:repeat>
+					</f:subview>
+				</ui:repeat>
+			</div>
+			<div class="clear"/>
+			<div id="right">
+				<h:outputText value="Please, select category from the navigation on the left"/>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="../WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div id="main">
+			Please, choose your shop first:<br />
+			<ui:repeat var="shop" value="#{shopController.availableShops}">
+				<h:outputLink id="link1" value="/web-mall/pages/shop.jsf">
+					<f:param name="sid" value="#{shop.id}" />
+					<h:outputText value="#{shop.name}" />
+					<br />
+				</h:outputLink>
+			</ui:repeat>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

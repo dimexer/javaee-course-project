@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<title>Web Mall</title>
+	<h:outputStylesheet library="css" name="style.css" />
+	<style>
+a {
+	text-decoration: none;
+}
+
+a:visited {
+	
+}
+
+div.clear {
+	clear: both;
+}
+
+#container {
+	width: 800px;
+	margin: 0 auto;
+	border: 1px solid #D6D6D6;
+	padding-bottom: 10px;
+}
+
+#header {
+	width: 100%;
+	border-bottom: 1px solid #D6D6D6;
+	padding-bottom: 20px;
+}
+
+#footer {
+	width: 100%;
+	border-top: 1px solid #D6D6D6;
+	color: red;
+	font-size: 10px;
+	text-align: center;
+	padding-top: 10px;
+}
+
+#logo {
+	text-decoration: none;
+	width: 100p;
+	font-size: 32px;
+	color: red;
+	text-align: center;
+	margin-bottom: 15px;
+	font-size: 32px;
+}
+
+#left {
+	height: 100%;
+	width: 130px;
+	border-right: 1px solid #D6D6D6;
+	float: left;
+}
+
+#right {
+	height: 100%;
+	float: left;
+}
+
+#topmenu {
+	font-size: 14px;
+	text-align: left;
+	width: 100%;
+	float: left;
+}
+
+#cartInfo {
+	float: right;
+	color: red;
+}
+
+#main {
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+</style>
+</h:head>
+<h:body>
+	<div id="container">
+		<ui:include src="/pages/includes/header.xhtml" />
+		<div class="clear" />
+		<div id="content">
+			<ui:insert name="content" />
+		</div>
+		<div class="clear" />
+		<ui:include src="/pages/includes/footer.xhtml" />
+	</div>
+</h:body>
+</html>
+

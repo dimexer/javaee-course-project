@@ -6,17 +6,36 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <ui:composition template="../WEB-INF/template.xhtml">
 	<ui:define name="content">
-		<h:outputText value="Login" /><br/>
-		<h:messages/>
-		<h:form method="POST">
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Email: " />
-				<h:inputText id="email" value="#{loginController.email}" />
-				<h:outputLabel value="Password: " />
-				<h:inputSecret id="password" value="#{loginController.password}" />
-			</h:panelGrid>
-			<h:commandButton value="Login" action="#{loginController.login}" />
-		</h:form>
+		<div id="registration">
+			<h3><h:outputText value="Registration" /></h3>
+			<br />
+			<h:messages />
+			<h:form method="POST">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Email: " />
+					<h:inputText id="email" value="#{registrationController.email}" />
+					<h:outputLabel value="First Name: " />
+					<h:inputText id="firstName"
+						value="#{registraionController.firstName}" />
+					<h:outputLabel value="Last Name: " />
+					<h:inputText id="lastName"
+						value="#{registrationController.lastName}" />
+					<h:outputLabel value="Password: " />
+					<h:inputSecret id="password"
+						value="#{registrationController.password}" />
+					<h:outputLabel value="Repeat Password: " />
+					<h:inputSecret id="repeatedPassword"
+						value="#{registrationController.repeatedPassword}" />
+					<h:outputLabel value="Address: " />
+					<h:inputText id="address" value="#{registrationController.address}" />
+					<h:outputLabel value="Phone number: " />
+					<h:inputText id="phoneNumber"
+						value="#{registrationController.phoneNumber}" />
+				</h:panelGrid>
+				<h:commandButton value="Register"
+					action="#{registrationController.register}" />
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

@@ -10,7 +10,8 @@
 		<div id="main">
 			Please, choose your shop first:<br />
 			<ui:repeat var="shop" value="#{shopController.availableShops}">
-				<h:outputLink id="link1" value="/web-mall/pages/shop.jsf">
+				<h:outputLink id="link1"
+					value="#{pageContext.request.contextPath}/web-mall/pages/shop.jsf">
 					<f:param name="sid" value="#{shop.id}" />
 					<h:outputText value="#{shop.name}" />
 					<br />

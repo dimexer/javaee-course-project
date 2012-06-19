@@ -33,4 +33,8 @@ public class UserBean {
 		return usr;
 
 	}
+	
+	public Customer createCustomer(String email, String firstName, String lastName, String password, String address, String phoneNumber){
+		return null;
+	}
 }

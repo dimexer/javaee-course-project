@@ -1,6 +1,7 @@
 package com.dimexer.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,9 +30,9 @@ public class Category {
 	
 	@ManyToOne
 	private Category parent;
-	
-	@OneToMany(mappedBy="category")
-	private List<Product> products;
+
+	@OneToMany(mappedBy="category", fetch=FetchType.EAGER)
+	private Set<Product> products;
 
 	public Shop getShop() {
 		return shop;
@@ -57,11 +58,11 @@ public class Category {
 		this.parent = parent;
 	}
 
-	public List<Product> getProducts() {
-		return products;
+	public Object[] getProducts() {
+		return products.toArray();
 	}
 
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 

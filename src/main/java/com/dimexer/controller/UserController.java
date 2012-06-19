@@ -16,6 +16,9 @@ public class UserController {
 	@EJB
 	private CartBean cart;
 	
+	public UserController(){
+		System.out.println("Creating user controller");
+	}
 	public Customer getCustomer() {
 		return customer;
 	}

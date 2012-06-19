@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+<ui:composition template="../WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div id="product">
+			<h3>
+				<h:outputText value="#{productController.currentProduct.name}" />
+			</h3>
+			<h:graphicImage library="images" name="noimage.gif" />
+			<br />
+			<br/>
+			<h:outputText style="font-weight:bold;" value="Description: " />
+			<h:outputText value="#{productController.currentProduct.description}" />
+			<br />
+			<h:outputText style="font-weight:bold;" value="Price: " />
+			<h:outputText value="#{productController.currentProduct.price}" />
+			<br/>
+			<h:form>
+				<h:commandButton action="#{productController.addToCart}"
+					value="Add to cart">
+					<f:param name="productId"
+						value="#{productController.currentProduct.id}" />
+				</h:commandButton>
+			</h:form>
+		</div>
+		<br />
+
+
+	</ui:define>
+</ui:composition>
+</html>

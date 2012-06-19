@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+<ui:composition template="../WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<h:outputText
+			value="You are now in category: #{categoryController.currentCategory.name}" />
+		<br />
+		<br />
+		<div class="clear" />
+		<div id="shop">
+			<f:subview
+				rendered="#{!empty categoryController.currentCategory.subcategories}">
+				<h:outputText style="font-weight: bold; margin-right:10px;"
+					value="Subcategories:" />
+				|
+				<ui:repeat var="cat"
+					value="#{categoryController.currentCategory.subcategories}">
+					<h:outputLink
+						value="#{pageContext.request.contextPath}/web-mall/pages/category.jsf">
+						<h:outputText value="#{cat.name}" />
+						<f:param name="cid" value="#{cat.id}" />
+					</h:outputLink>
+					|
+				</ui:repeat>
+				<br />
+			</f:subview>
+
+			<f:subview
+				rendered="#{!empty categoryController.currentCategory.products}">
+				<h:outputText style="font-weight: bold; margin-right:10px;"
+					value="Products:" />
+				<ui:repeat var="prod"
+					value="#{categoryController.currentCategory.products}">
+					<br />
+					<h:outputLink
+						value="#{pageContext.request.contextPath}/web-mall/pages/product.jsf">
+						<h:outputText value="#{prod.name}" />
+						<f:param name="pid" value="#{prod.id}" />
+					</h:outputLink>
+				</ui:repeat>
+			</f:subview>
+			<div class="clear" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -10,14 +10,13 @@ import com.dimexer.model.Product;
 
 @Stateless
 public class CartBean {
-	
+
 	int size;
 	private List<Product> products;
 
-	@PostActivate
-	private void init() {
+	public CartBean() {
 		products = new ArrayList<Product>();
-		size=0;
+		size = 0;
 	}
 
 	public List<Product> getProducts() {

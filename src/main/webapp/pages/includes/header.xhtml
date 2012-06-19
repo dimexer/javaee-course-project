@@ -7,8 +7,8 @@
 <body>
 	<div id="header">
 		<div id="logo">
-			<a href="http://localhost:8080/web-mall/pages/index.jsf">
-				<h:outputText value="WEB MALL" />
+			<a href="http://localhost:8080/web-mall/pages/index.jsf"> <h:outputText
+					value="WEB MALL" />
 			</a>
 		</div>
 		<div id="topmenu">
@@ -17,14 +17,16 @@
 				<a href="http://localhost:8080/web-mall/pages/register.jsf">Register</a>
 			</f:subview>
 			<f:subview rendered="${!empty userController.customer}">
-				<h:form>
-					<a href="http://localhost:8080/web-mall/pages/myAccount.jsf">My
-						account</a> |
+				<div style="float: left;">
+					<h:form>
+						<a href="http://localhost:8080/web-mall/pages/myAccount.jsf">My
+							account</a> |
 						<h:commandLink value="Logout" action="#{loginController.logout}" />
-				</h:form>
+					</h:form>
+				</div>
 			</f:subview>
-			<div id="cartInfo">Cart size:
-				#{userController.cart.size}</div>
+
+			<div id="cartInfo">Cart size: #{userController.cart.size}</div>
 		</div>
 	</div>
 </body>

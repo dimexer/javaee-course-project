@@ -23,8 +23,8 @@
 				|
 				<ui:repeat var="cat"
 					value="#{shopController.currentShop.categories}">
-					<h:outputLink value="#{pageContext.request.contextPath}/web-mall/pages/category.jsf">
-					<f:param name="cid" value="#{cat.id}"/>
+					<h:outputLink
+						value="#{pageContext.request.contextPath}/web-mall/category/#{cat.id}">
 						<h:outputText value="#{cat.name}" />
 					</h:outputLink>
 					|

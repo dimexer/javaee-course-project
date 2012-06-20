@@ -45,7 +45,7 @@ public class RegistrationController {
 		return null;
 		}
 		this.userController.setCustomer(cust);
-		return "index";
+		return "pretty:index";
 	}
 
 	public String getEmail() {

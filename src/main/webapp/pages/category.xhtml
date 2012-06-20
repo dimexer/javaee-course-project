@@ -21,9 +21,8 @@
 				<ui:repeat var="cat"
 					value="#{categoryController.currentCategory.subcategories}">
 					<h:outputLink
-						value="#{pageContext.request.contextPath}/web-mall/pages/category.jsf">
+						value="#{pageContext.request.contextPath}/web-mall/category/#{cat.id}">
 						<h:outputText value="#{cat.name}" />
-						<f:param name="cid" value="#{cat.id}" />
 					</h:outputLink>
 					|
 				</ui:repeat>
@@ -38,9 +37,8 @@
 					value="#{categoryController.currentCategory.products}">
 					<br />
 					<h:outputLink
-						value="#{pageContext.request.contextPath}/web-mall/pages/product.jsf">
+						value="#{pageContext.request.contextPath}/web-mall/product/#{prod.id}">
 						<h:outputText value="#{prod.name}" />
-						<f:param name="pid" value="#{prod.id}" />
 					</h:outputLink>
 				</ui:repeat>
 			</f:subview>

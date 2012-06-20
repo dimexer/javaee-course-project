@@ -7,14 +7,14 @@
 <body>
 	<div id="header">
 		<div id="logo">
-			<a href="http://localhost:8080/web-mall/pages/index.jsf"> <h:outputText
+			<a href="#{pageContext.request.contextPath}/web-mall/"> <h:outputText
 					value="WEB MALL" />
 			</a>
 		</div>
 		<div id="topmenu">
 			<f:subview rendered="#{empty userController.customer}">
-				<a href="http://localhost:8080/web-mall/pages/login.jsf">Login</a> |
-				<a href="http://localhost:8080/web-mall/pages/register.jsf">Register</a>
+				<a href="#{pageContext.request.contextPath}/web-mall/login">Login</a> |
+				<a href="#{pageContext.request.contextPath}/web-mall/register">Register</a>
 			</f:subview>
 			<f:subview rendered="${!empty userController.customer}">
 				<div style="float: left;">
@@ -23,7 +23,7 @@
 					<div style="float: left;">
 						<h:form>
 					|
-						<a href="http://localhost:8080/web-mall/pages/myAccount.jsf">My
+						<a href="#{pageContext.request.contextPath}/web-mall/myaccount">My
 								account</a> |
 						<h:commandLink value="Logout" action="#{loginController.logout}" />
 						</h:form>

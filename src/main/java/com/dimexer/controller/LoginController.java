@@ -27,10 +27,8 @@ public class LoginController {
 	public String login(){
 		Customer cust = userBean.login(email, password);
 		if(cust != null){
-			System.out.println("Customer not null");
 			userController.setCustomer(cust);
-			System.out.println("NAME:"+cust.getFirstName());
-			return "home";
+			return "pretty:index";
 		}
 		else{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorrect username and/or password!"));

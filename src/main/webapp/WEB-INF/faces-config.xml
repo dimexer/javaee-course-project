@@ -8,7 +8,7 @@
 	<lifecycle>
 		<phase-listener>com.dimexer.listener.LoggedInCheck</phase-listener>
 	</lifecycle>
-	<navigation-rule>
+<!-- 	<navigation-rule>
 		<from-view-id>/pages/login.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>home</from-outcome>
@@ -28,7 +28,7 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
-	</navigation-rule>
+	</navigation-rule> -->
 
 	<validator>
 		<validator-id>emailValidator</validator-id>

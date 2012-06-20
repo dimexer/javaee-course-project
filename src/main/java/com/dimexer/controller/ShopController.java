@@ -41,7 +41,6 @@ public class ShopController {
 		if (id != null) {
 				this.currentShop = shopBean.loadShopById(id);
 		}
-
 	}
 
 	public Shop getCurrentShop() {

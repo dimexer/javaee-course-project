@@ -30,13 +30,12 @@ public class LoggedInCheck implements PhaseListener {
 	public void afterPhase(PhaseEvent arg0) {
 		FacesContext fc = arg0.getFacesContext();
 		String viewId = fc.getViewRoot().getViewId();
-		System.out.println("VIEW ID: "+viewId);
 		for (String s : loginRequiredPages) {
 			if (viewId.lastIndexOf(s) > -1 && !loggedIn(fc)) {
 				fc.addMessage(null, new FacesMessage("Please, login first!"));
 				NavigationHandler nh = fc.getApplication()
 						.getNavigationHandler();
-				nh.handleNavigation(fc, null, "login");
+				nh.handleNavigation(fc, null, "pretty:login");
 			}
 		}
 

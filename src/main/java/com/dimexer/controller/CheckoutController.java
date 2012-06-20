@@ -30,7 +30,7 @@ public class CheckoutController {
 		userController.getCart().setProducts(new ArrayList<Product>());
 		userController.getCart().setSize(0);
 		
-		return "index";
+		return "pretty:index";
 	}
 
 	public UserController getUserController() {

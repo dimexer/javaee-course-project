@@ -37,7 +37,7 @@ public class ProductController {
 			id = Integer.parseInt(idString);
 		}
 		catch(Exception ex){
-			System.out.println("Bad id passed. Can't instantiate shop");
+			System.out.println("Bad id passed. Can't get product.");
 		}
 		
 		if (id != null) {
@@ -49,11 +49,12 @@ public class ProductController {
 	public Object addToCart(){
 		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String id = params.get("productId");
+		buyId=id;
 		if(id != null){
 			userController.getCart().getProducts().add(productBean.loadProductById(Integer.valueOf(id)));
 			userController.getCart().setSize(userController.getCart().getSize()+1);
 		}
-		return "product";
+		return "pretty:productr";
 		
 	}
 	public Product getCurrentProduct() {

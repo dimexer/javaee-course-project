@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.org/prettyfaces/3.3.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/prettyfaces/3.3.3               http://ocpsoft.org/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/pages/login.jsf" />
+	</url-mapping>
+	<url-mapping id="index">
+		<pattern value="/" />
+		<view-id value="/pages/index.jsf" />
+	</url-mapping>
+	<url-mapping id="register">
+		<pattern value="/register" />
+		<view-id value="/pages/register.jsf" />
+	</url-mapping>
+	<url-mapping id="shop">
+		<pattern value="/shop/#{sid}" />
+		<view-id value="/pages/shop.jsf" />
+		<query-param name="sid">#{sid}</query-param>
+	</url-mapping>
+	<url-mapping id="product">
+		<pattern value="/product/#{pid}" />
+		<view-id value="/pages/product.jsf" />
+		<query-param name="pid">#{pid}</query-param>
+	</url-mapping>
+	<url-mapping id="productr">
+		<pattern value="/product/#{productController.buyId}" />
+		<view-id value="/pages/product.jsf?pid=#{productController.buyId}" />
+	</url-mapping>
+	<url-mapping id="category">
+		<pattern value="/category/#{cid}" />
+		<view-id value="/pages/category.jsf" />
+		<query-param name="sid">#{cid}</query-param>
+	</url-mapping>
+		<url-mapping id="myaccount">
+		<pattern value="/myaccount" />
+		<view-id value="/pages/myAccount.jsf" />
+	</url-mapping>
+</pretty-config>

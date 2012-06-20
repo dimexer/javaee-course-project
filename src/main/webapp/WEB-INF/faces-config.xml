@@ -5,6 +5,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
 	version="2.0">
 
+	<lifecycle>
+		<phase-listener>com.dimexer.listener.LoggedInCheck</phase-listener>
+	</lifecycle>
 	<navigation-rule>
 		<from-view-id>/pages/login.xhtml</from-view-id>
 		<navigation-case>
@@ -19,11 +22,16 @@
 			<from-outcome>product</from-outcome>
 			<to-view-id>/pages/product.xhtml/</to-view-id>
 			<redirect>
-				 <view-param>
+				<view-param>
 					<name>pid</name>
 					<value>#{param['productId']}</value>
 				</view-param>
 			</redirect>
 		</navigation-case>
 	</navigation-rule>
+
+	<validator>
+		<validator-id>emailValidator</validator-id>
+		<validator-class>com.dimexer.validator.EmailValidator</validator-class>
+	</validator>
 </faces-config>

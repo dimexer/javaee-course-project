@@ -35,6 +35,20 @@ public class UserBean {
 	}
 	
 	public Customer createCustomer(String email, String firstName, String lastName, String password, String address, String phoneNumber){
-		return null;
+		Customer cust = new Customer();
+		cust.setEmail(email);
+		cust.setFirstName(firstName);
+		cust.setLastName(lastName);
+		cust.setPassword(password);
+		cust.setAddress(address);
+		cust.setPhoneNumber(phoneNumber);
+		
+		try{
+		em.persist(cust);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+		return cust;
 	}
 }

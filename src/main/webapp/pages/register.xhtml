@@ -13,10 +13,13 @@
 			<h:form method="POST">
 				<h:panelGrid columns="2">
 					<h:outputLabel value="Email: " />
-					<h:inputText id="email" value="#{registrationController.email}" />
+					<h:inputText id="email" value="#{registrationController.email}">
+						<f:validator validatorId="emailValidator"/>
+					</h:inputText>
 					<h:outputLabel value="First Name: " />
 					<h:inputText id="firstName"
-						value="#{registraionController.firstName}" />
+						value="#{registrationController.firstName}" >
+					</h:inputText>
 					<h:outputLabel value="Last Name: " />
 					<h:inputText id="lastName"
 						value="#{registrationController.lastName}" />

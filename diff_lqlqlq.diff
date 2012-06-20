@@ -1,0 +1,563 @@
+diff --git a/.classpath b/.classpath
+index d43f59b..16325c5 100644
+--- a/.classpath
++++ b/.classpath
+@@ -1,8 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <classpath>
+-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
+-	<classpathentry kind="src" path="src/main/java/com/dimexer/ee/managed"/>
+-	<classpathentry excluding="com/dimexer/ee/managed/|com/dimexer/ee/model/|com/dimexer/ee/model/|com/dimexer/ee/managed/" kind="src" path="src/main/java"/>
++	<classpathentry kind="src" path="src/main/java"/>
+ 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+ 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+ 	<classpathentry kind="lib" path="target/web-mall/WEB-INF/lib/javaee-api-6.0.jar"/>
+diff --git a/pom.xml b/pom.xml
+index a75abf0..d2216d1 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -30,13 +30,38 @@
+ 			<artifactId>plexus-compiler-javac</artifactId>
+ 			<version>1.6</version>
+ 		</dependency>
++		<dependency>
++			<groupId>org.tuckey</groupId>
++			<artifactId>urlrewritefilter</artifactId>
++			<version>3.0.4</version>
++		</dependency>
+ 	</dependencies>
+ 	<build>
+ 		<finalName>web-mall</finalName>
+-		<resources>
+-			<resource>
+-				<directory>src/main/resources</directory>
+-			</resource>
+-		</resources>
++		<plugins>
++      <plugin>
++        <artifactId>maven-resources-plugin</artifactId>
++        <version>2.5</version>
++        <executions>
++          <execution>
++            <id>copy-resources</id>
++            <!-- here the phase you need -->
++            <phase>validate</phase>
++            <goals>
++              <goal>copy-resources</goal>
++            </goals>
++            <configuration>
++              <outputDirectory>${basedir}/target/web-mall/resources</outputDirectory>
++              <resources>          
++                <resource>
++                  <directory>${basedir}/src/main/resources</directory>
++                  <filtering>false</filtering>
++                </resource>
++              </resources>              
++            </configuration>            
++          </execution>
++        </executions>
++      </plugin>
++    </plugins>
+ 	</build>
+ </project>
+diff --git a/src/main/java/com/dimexer/controller/LoginController.java b/src/main/java/com/dimexer/controller/LoginController.java
+diff --git a/src/main/java/com/dimexer/controller/ShopController.java b/src/main/java/com/dimexer/controller/ShopController.java
+diff --git a/src/main/java/com/dimexer/controller/UserController.java b/src/main/java/com/dimexer/controller/UserController.java
+index b514299..8513a8d 100644
+--- a/src/main/java/com/dimexer/controller/UserController.java
++++ b/src/main/java/com/dimexer/controller/UserController.java
+@@ -16,6 +16,9 @@ public class UserController {
+ 	@EJB
+ 	private CartBean cart;
+ 	
++	public UserController(){
++		System.out.println("Creating user controller");
++	}
+ 	public Customer getCustomer() {
+ 		return customer;
+ 	}
+diff --git a/src/main/java/com/dimexer/ejb/CartBean.java b/src/main/java/com/dimexer/ejb/CartBean.java
+index 0a7f3ec..9b54847 100644
+--- a/src/main/java/com/dimexer/ejb/CartBean.java
++++ b/src/main/java/com/dimexer/ejb/CartBean.java
+@@ -10,14 +10,13 @@ import com.dimexer.model.Product;
+ 
+ @Stateless
+ public class CartBean {
+-	
++
+ 	int size;
+ 	private List<Product> products;
+ 
+-	@PostActivate
+-	private void init() {
++	public CartBean() {
+ 		products = new ArrayList<Product>();
+-		size=0;
++		size = 0;
+ 	}
+ 
+ 	public List<Product> getProducts() {
+diff --git a/src/main/java/com/dimexer/ejb/ShopBean.java b/src/main/java/com/dimexer/ejb/ShopBean.java
+diff --git a/src/main/java/com/dimexer/ejb/UserBean.java b/src/main/java/com/dimexer/ejb/UserBean.java
+index c11539e..65ff2ec 100644
+--- a/src/main/java/com/dimexer/ejb/UserBean.java
++++ b/src/main/java/com/dimexer/ejb/UserBean.java
+@@ -33,4 +33,8 @@ public class UserBean {
+ 		return usr;
+ 
+ 	}
++	
++	public Customer createCustomer(String email, String firstName, String lastName, String password, String address, String phoneNumber){
++		return null;
++	}
+ }
+diff --git a/src/main/java/com/dimexer/model/Category.java b/src/main/java/com/dimexer/model/Category.java
+index 260c84b..ea62681 100644
+--- a/src/main/java/com/dimexer/model/Category.java
++++ b/src/main/java/com/dimexer/model/Category.java
+@@ -1,6 +1,7 @@
+ package com.dimexer.model;
+ 
+ import java.util.List;
++import java.util.Set;
+ 
+ import javax.persistence.Entity;
+ import javax.persistence.FetchType;
+@@ -29,9 +30,9 @@ public class Category {
+ 	
+ 	@ManyToOne
+ 	private Category parent;
+-	
+-	@OneToMany(mappedBy="category")
+-	private List<Product> products;
++
++	@OneToMany(mappedBy="category", fetch=FetchType.EAGER)
++	private Set<Product> products;
+ 
+ 	public Shop getShop() {
+ 		return shop;
+@@ -57,11 +58,11 @@ public class Category {
+ 		this.parent = parent;
+ 	}
+ 
+-	public List<Product> getProducts() {
+-		return products;
++	public Object[] getProducts() {
++		return products.toArray();
+ 	}
+ 
+-	public void setProducts(List<Product> products) {
++	public void setProducts(Set<Product> products) {
+ 		this.products = products;
+ 	}
+ 
+diff --git a/src/main/java/com/dimexer/model/Customer.java b/src/main/java/com/dimexer/model/Customer.java
+diff --git a/src/main/java/com/dimexer/model/Order.java b/src/main/java/com/dimexer/model/Order.java
+diff --git a/src/main/java/com/dimexer/model/OrderEntry.java b/src/main/java/com/dimexer/model/OrderEntry.java
+diff --git a/src/main/java/com/dimexer/model/Product.java b/src/main/java/com/dimexer/model/Product.java
+diff --git a/src/main/java/com/dimexer/model/Shop.java b/src/main/java/com/dimexer/model/Shop.java
+diff --git a/src/main/resources/css/style.css b/src/main/resources/css/style.css
+index 54fe2ff..0438e99 100644
+--- a/src/main/resources/css/style.css
++++ b/src/main/resources/css/style.css
+@@ -1,3 +1,11 @@
++a {
++	text-decoration: none;
++}
++
++a:visited {
++	
++}
++
+ div.clear {
+ 	clear: both;
+ }
+@@ -7,16 +15,25 @@ div.clear {
+ 	margin: 0 auto;
+ 	border: 1px solid #D6D6D6;
+ 	padding-bottom: 10px;
+-	padding-top: 10px;
+ }
+ 
+ #header {
+-	width: 100p;
++	width: 100%;
+ 	border-bottom: 1px solid #D6D6D6;
+-	padding-bottom: 15px;
++	padding-bottom: 20px;
++}
++
++#footer {
++	width: 100%;
++	border-top: 1px solid #D6D6D6;
++	color: red;
++	font-size: 10px;
++	text-align: center;
++	padding-top: 10px;
+ }
+ 
+ #logo {
++	text-decoration: none;
+ 	width: 100p;
+ 	font-size: 32px;
+ 	color: red;
+@@ -38,7 +55,30 @@ div.clear {
+ }
+ 
+ #topmenu {
+-	width: 100p;
+ 	font-size: 14px;
+ 	text-align: left;
++	width: 100%;
++	float: left;
++}
++
++#cartInfo {
++	float: right;
++	color: red;
++}
++
++#main {
++	text-align: center;
++	padding-top: 20px;
++	padding-bottom: 20px;
++}
++
++#shop {
++	padding-top: 20px;
++	padding-bottom: 20px;
++}
++
++#product, #login, #registration {
++	padding-top: 20px;
++	padding-bottom: 20px;
++	padding-left: 5px;
+ }
+\ No newline at end of file
+diff --git a/src/main/webapp/WEB-INF/faces-config.xml b/src/main/webapp/WEB-INF/faces-config.xml
+index e3f65f6..bfd1af8 100644
+--- a/src/main/webapp/WEB-INF/faces-config.xml
++++ b/src/main/webapp/WEB-INF/faces-config.xml
+@@ -10,7 +10,20 @@
+ 		<navigation-case>
+ 			<from-outcome>home</from-outcome>
+ 			<to-view-id>/pages/index.xhtml</to-view-id>
+-			<redirect/>
++			<redirect />
++		</navigation-case>
++	</navigation-rule>
++	<navigation-rule>
++		<from-view-id>/pages/product.xhtml</from-view-id>
++		<navigation-case>
++			<from-outcome>product</from-outcome>
++			<to-view-id>/pages/product.xhtml/</to-view-id>
++			<redirect>
++				 <view-param>
++					<name>pid</name>
++					<value>#{param['productId']}</value>
++				</view-param>
++			</redirect>
+ 		</navigation-case>
+ 	</navigation-rule>
+ </faces-config>
+diff --git a/src/main/webapp/WEB-INF/template.xhtml b/src/main/webapp/WEB-INF/template.xhtml
+index cd090e7..7d751be 100644
+--- a/src/main/webapp/WEB-INF/template.xhtml
++++ b/src/main/webapp/WEB-INF/template.xhtml
+@@ -8,81 +8,6 @@
+ 	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+ 	<title>Web Mall</title>
+ 	<h:outputStylesheet library="css" name="style.css" />
+-	<style>
+-a {
+-	text-decoration: none;
+-}
+-
+-a:visited {
+-	
+-}
+-
+-div.clear {
+-	clear: both;
+-}
+-
+-#container {
+-	width: 800px;
+-	margin: 0 auto;
+-	border: 1px solid #D6D6D6;
+-	padding-bottom: 10px;
+-}
+-
+-#header {
+-	width: 100%;
+-	border-bottom: 1px solid #D6D6D6;
+-	padding-bottom: 20px;
+-}
+-
+-#footer {
+-	width: 100%;
+-	border-top: 1px solid #D6D6D6;
+-	color: red;
+-	font-size: 10px;
+-	text-align: center;
+-	padding-top: 10px;
+-}
+-
+-#logo {
+-	text-decoration: none;
+-	width: 100p;
+-	font-size: 32px;
+-	color: red;
+-	text-align: center;
+-	margin-bottom: 15px;
+-	font-size: 32px;
+-}
+-
+-#left {
+-	height: 100%;
+-	width: 130px;
+-	border-right: 1px solid #D6D6D6;
+-	float: left;
+-}
+-
+-#right {
+-	height: 100%;
+-	float: left;
+-}
+-
+-#topmenu {
+-	font-size: 14px;
+-	text-align: left;
+-	width: 100%;
+-	float: left;
+-}
+-
+-#cartInfo {
+-	float: right;
+-	color: red;
+-}
+-
+-#main {
+-	text-align: center;
+-	padding-top: 20px;
+-	padding-bottom: 20px;
+-}
+-</style>
+ </h:head>
+ <h:body>
+ 	<div id="container">
+diff --git a/src/main/webapp/WEB-INF/web.xml b/src/main/webapp/WEB-INF/web.xml
+index 554adbb..5b010f7 100644
+--- a/src/main/webapp/WEB-INF/web.xml
++++ b/src/main/webapp/WEB-INF/web.xml
+@@ -13,6 +13,17 @@
+ 		<param-value>/WEB-INF/faces-config.xml</param-value>
+ 	</context-param>
+ 
++	<filter>
++		<filter-name>UrlRewriteFilter</filter-name>
++		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
++	</filter>
++	<filter-mapping>
++		<filter-name>UrlRewriteFilter</filter-name>
++		<url-pattern>/*</url-pattern>
++		<dispatcher>REQUEST</dispatcher>
++		<dispatcher>FORWARD</dispatcher>
++	</filter-mapping>
++	
+ 	<servlet>
+ 		<servlet-name>Faces Servlet</servlet-name>
+ 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+diff --git a/src/main/webapp/pages/includes/header.xhtml b/src/main/webapp/pages/includes/header.xhtml
+index b92e24b..94ad1bd 100644
+--- a/src/main/webapp/pages/includes/header.xhtml
++++ b/src/main/webapp/pages/includes/header.xhtml
+@@ -7,8 +7,8 @@
+ <body>
+ 	<div id="header">
+ 		<div id="logo">
+-			<a href="http://localhost:8080/web-mall/pages/index.jsf">
+-				<h:outputText value="WEB MALL" />
++			<a href="http://localhost:8080/web-mall/pages/index.jsf"> <h:outputText
++					value="WEB MALL" />
+ 			</a>
+ 		</div>
+ 		<div id="topmenu">
+@@ -17,14 +17,16 @@
+ 				<a href="http://localhost:8080/web-mall/pages/register.jsf">Register</a>
+ 			</f:subview>
+ 			<f:subview rendered="${!empty userController.customer}">
+-				<h:form>
+-					<a href="http://localhost:8080/web-mall/pages/myAccount.jsf">My
+-						account</a> |
++				<div style="float: left;">
++					<h:form>
++						<a href="http://localhost:8080/web-mall/pages/myAccount.jsf">My
++							account</a> |
+ 						<h:commandLink value="Logout" action="#{loginController.logout}" />
+-				</h:form>
++					</h:form>
++				</div>
+ 			</f:subview>
+-			<div id="cartInfo">Cart size:
+-				#{userController.cart.size}</div>
++
++			<div id="cartInfo">Cart size: #{userController.cart.size}</div>
+ 		</div>
+ 	</div>
+ </body>
+diff --git a/src/main/webapp/pages/index.xhtml b/src/main/webapp/pages/index.xhtml
+index a9c3515..75cf71b 100644
+--- a/src/main/webapp/pages/index.xhtml
++++ b/src/main/webapp/pages/index.xhtml
+@@ -10,7 +10,8 @@
+ 		<div id="main">
+ 			Please, choose your shop first:<br />
+ 			<ui:repeat var="shop" value="#{shopController.availableShops}">
+-				<h:outputLink id="link1" value="/web-mall/pages/shop.jsf">
++				<h:outputLink id="link1"
++					value="#{pageContext.request.contextPath}/web-mall/pages/shop.jsf">
+ 					<f:param name="sid" value="#{shop.id}" />
+ 					<h:outputText value="#{shop.name}" />
+ 					<br />
+diff --git a/src/main/webapp/pages/login.xhtml b/src/main/webapp/pages/login.xhtml
+index 129bf7a..43ca44c 100644
+--- a/src/main/webapp/pages/login.xhtml
++++ b/src/main/webapp/pages/login.xhtml
+@@ -6,17 +6,20 @@
+ 	xmlns:f="http://java.sun.com/jsf/core">
+ <ui:composition template="../WEB-INF/template.xhtml">
+ 	<ui:define name="content">
+-		<h:outputText value="Login" /><br/>
+-		<h:messages/>
+-		<h:form method="POST">
+-			<h:panelGrid columns="2">
+-				<h:outputLabel value="Email: " />
+-				<h:inputText id="email" value="#{loginController.email}" />
+-				<h:outputLabel value="Password: " />
+-				<h:inputSecret id="password" value="#{loginController.password}" />
+-			</h:panelGrid>
+-			<h:commandButton value="Login" action="#{loginController.login}" />
+-		</h:form>
++		<div id="login">
++			<h3><h:outputText value="Login" /></h3>
++			<br />
++			<h:messages />
++			<h:form method="POST">
++				<h:panelGrid columns="2">
++					<h:outputLabel value="Email: " />
++					<h:inputText id="email" value="#{loginController.email}" />
++					<h:outputLabel value="Password: " />
++					<h:inputSecret id="password" value="#{loginController.password}" />
++				</h:panelGrid>
++				<h:commandButton value="Login" action="#{loginController.login}" />
++			</h:form>
++		</div>
+ 	</ui:define>
+ </ui:composition>
+ </html>
+\ No newline at end of file
+diff --git a/src/main/webapp/pages/register.xhtml b/src/main/webapp/pages/register.xhtml
+index 129bf7a..4ba4c60 100644
+--- a/src/main/webapp/pages/register.xhtml
++++ b/src/main/webapp/pages/register.xhtml
+@@ -6,17 +6,36 @@
+ 	xmlns:f="http://java.sun.com/jsf/core">
+ <ui:composition template="../WEB-INF/template.xhtml">
+ 	<ui:define name="content">
+-		<h:outputText value="Login" /><br/>
+-		<h:messages/>
+-		<h:form method="POST">
+-			<h:panelGrid columns="2">
+-				<h:outputLabel value="Email: " />
+-				<h:inputText id="email" value="#{loginController.email}" />
+-				<h:outputLabel value="Password: " />
+-				<h:inputSecret id="password" value="#{loginController.password}" />
+-			</h:panelGrid>
+-			<h:commandButton value="Login" action="#{loginController.login}" />
+-		</h:form>
++		<div id="registration">
++			<h3><h:outputText value="Registration" /></h3>
++			<br />
++			<h:messages />
++			<h:form method="POST">
++				<h:panelGrid columns="2">
++					<h:outputLabel value="Email: " />
++					<h:inputText id="email" value="#{registrationController.email}" />
++					<h:outputLabel value="First Name: " />
++					<h:inputText id="firstName"
++						value="#{registraionController.firstName}" />
++					<h:outputLabel value="Last Name: " />
++					<h:inputText id="lastName"
++						value="#{registrationController.lastName}" />
++					<h:outputLabel value="Password: " />
++					<h:inputSecret id="password"
++						value="#{registrationController.password}" />
++					<h:outputLabel value="Repeat Password: " />
++					<h:inputSecret id="repeatedPassword"
++						value="#{registrationController.repeatedPassword}" />
++					<h:outputLabel value="Address: " />
++					<h:inputText id="address" value="#{registrationController.address}" />
++					<h:outputLabel value="Phone number: " />
++					<h:inputText id="phoneNumber"
++						value="#{registrationController.phoneNumber}" />
++				</h:panelGrid>
++				<h:commandButton value="Register"
++					action="#{registrationController.register}" />
++			</h:form>
++		</div>
+ 	</ui:define>
+ </ui:composition>
+ </html>
+\ No newline at end of file
+diff --git a/src/main/webapp/pages/shop.xhtml b/src/main/webapp/pages/shop.xhtml
+index 58863ef..4512457 100644
+--- a/src/main/webapp/pages/shop.xhtml
++++ b/src/main/webapp/pages/shop.xhtml
+@@ -12,26 +12,28 @@
+ 			value="You are now in shop: #{shopController.currentShop.name}" />
+ 		<br />
+ 		<br />
+-		<div class="clear"/>
+-		<div id="main">
+-			<div id="left" >
+-				<h:outputText style="font-weight: bold;" value="Categories:" /><br/>
++		<div class="clear" />
++		<div id="shop">
++			<h:outputText
++				value="Please, choose category to view products and subcategories" />
++			<br />
++			<h:outputText style="font-weight: bold; margin-right:10px;"
++				value="Categories:" />
++			<f:subview rendered="#{!empty shopController.currentShop.categories}">
++				|
+ 				<ui:repeat var="cat"
+ 					value="#{shopController.currentShop.categories}">
+-					<h:outputText value="#{cat.name}" />
+-					<br />
+-					<f:subview rendered="#{!empty cat.subcategories}">
+-						<ui:repeat var="scat" value="#{cat.subcategories}">
+-							<h:outputText style="margin-left:15px;" value="#{scat.name}" />
+-							<br />
+-						</ui:repeat>
+-					</f:subview>
++					<h:outputLink value="#{pageContext.request.contextPath}/web-mall/pages/category.jsf">
++					<f:param name="cid" value="#{cat.id}"/>
++						<h:outputText value="#{cat.name}" />
++					</h:outputLink>
++					|
+ 				</ui:repeat>
+-			</div>
+-			<div class="clear"/>
+-			<div id="right">
+-				<h:outputText value="Please, select category from the navigation on the left"/>
+-			</div>
++			</f:subview>
++			<f:subview rendered="#{empty shopController.currentShop.categories}">
++				<h:outputText value="No categories and products for this shop... :(" />
++			</f:subview>
++			<div class="clear" />
+ 		</div>
+ 	</ui:define>
+ </ui:composition>

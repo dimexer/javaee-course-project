@@ -1,10 +1,15 @@
 package com.dimexer.model;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +20,8 @@ public class Order {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private String products;
+	@OneToMany (mappedBy="order", fetch=FetchType.EAGER)
+	private Set<OrderEntry> entries;
 	
 	@ManyToOne
 	private Customer customer;
@@ -28,19 +34,19 @@ public class Order {
 		this.id = id;
 	}
 
-	public String getProducts() {
-		return products;
-	}
-
-	public void setProducts(String products) {
-		this.products = products;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Object[] getEntries() {
+		return entries.toArray();
+	}
+
+	public void setEntries(Set<OrderEntry> entries) {
+		this.entries = entries;
 	}
 }

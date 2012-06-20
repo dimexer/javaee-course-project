@@ -18,15 +18,27 @@
 			</f:subview>
 			<f:subview rendered="${!empty userController.customer}">
 				<div style="float: left;">
-					<h:form>
+					<h:outputText style="float:left;"
+						value="Hello, mr #{userController.customer.lastName} !" />
+					<div style="float: left;">
+						<h:form>
+					|
 						<a href="http://localhost:8080/web-mall/pages/myAccount.jsf">My
-							account</a> |
+								account</a> |
 						<h:commandLink value="Logout" action="#{loginController.logout}" />
-					</h:form>
+						</h:form>
+					</div>
 				</div>
 			</f:subview>
 
-			<div id="cartInfo">Cart size: #{userController.cart.size}</div>
+			<div id="cartInfo">
+			<h:outputText value="Cart size: #{userController.cart.size}"/>
+			<f:subview rendered="#{userController.cart.size gt 0}">
+				<h:outputLink value="#{pageContext.request.contextPath}/web-mall/pages/checkout.jsf">
+					<h:outputText value="| Checkout |"/>
+				</h:outputLink>
+			</f:subview>
+			</div>
 		</div>
 	</div>
 </body>

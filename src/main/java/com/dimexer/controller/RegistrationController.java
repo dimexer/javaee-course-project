@@ -24,7 +24,7 @@ public class RegistrationController {
 	@EJB
 	private UserBean userBean;
 
-	@ManagedProperty(value = "userController")
+	@ManagedProperty(value = "#{userController}")
 	private UserController userController;
 
 	public String register() {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<ui:composition template="../WEB-INF/template.xhtml">
+	<ui:define name="content">
+		<div class="clear" />
+		<div id="account">
+			<h3>
+				<h:outputText value="Account information:" />
+			</h3>
+			<table>
+				<tr>
+					<td><h:outputText value="First name:" /></td>
+					<td><h:outputText value="#{userController.customer.firstName}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="Last name:" /></td>
+					<td><h:outputText value="#{userController.customer.lastName}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="Address:" /></td>
+					<td><h:outputText value="#{userController.customer.address}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputText value="Phone number:" /></td>
+					<td><h:outputText
+							value="#{userController.customer.phoneNumber}" /></td>
+				</tr>
+			</table>
+			<br />
+			<f:subview rendered="#{!empty userController.customer.orders}">
+				<h:outputText value="Your orders: " />
+				<br />
+				<ui:repeat var="order" value="#{userController.customer.orders}">
+					<br />
+					<div style="border: 1px solid #D6D6D6;">
+						<h:outputText value="Order id: #{order.id}" />
+						<br />
+						<f:subview rendered="#{!empty order.entries}">
+							<h:outputText value="Products:" />
+							<br />
+							<ui:repeat var="oe" value="#{order.entries}">
+								<h:outputText value="#{oe.quantity} X #{oe.product.name}" />
+								<br />
+							</ui:repeat>
+						</f:subview>
+					</div>
+
+				</ui:repeat>
+			</f:subview>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

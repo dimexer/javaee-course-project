@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:dx="http://dimexer.com/custom">
 <body>
 	<div id="header">
 		<div id="logo">
@@ -30,15 +31,7 @@
 					</div>
 				</div>
 			</f:subview>
-
-			<div id="cartInfo">
-			<h:outputText value="Cart size: #{userController.cart.size}"/>
-			<f:subview rendered="#{userController.cart.size gt 0}">
-				<h:outputLink value="#{pageContext.request.contextPath}/web-mall/pages/checkout.jsf">
-					<h:outputText value="| Checkout |"/>
-				</h:outputLink>
-			</f:subview>
-			</div>
+			<dx:cartInfo/>
 		</div>
 	</div>
 </body>

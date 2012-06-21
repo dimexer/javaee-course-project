@@ -1,5 +1,7 @@
 package com.dimexer.controller;
 
+import java.util.ArrayList;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import com.dimexer.ejb.UserBean;
 import com.dimexer.model.Customer;
+import com.dimexer.model.Product;
 
 @ManagedBean
 @RequestScoped
@@ -34,6 +37,14 @@ public class LoginController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorrect username and/or password!"));
 			return null;
 		}
+	}
+	
+	public String logout(){
+		userController.getCart().setProducts(new ArrayList<Product>());
+		userController.getCart().setSize(0);
+		userController.setCustomer(null);
+		
+		return "pretty:index";
 	}
 	
 	public String getEmail() {

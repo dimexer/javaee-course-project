@@ -6,23 +6,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 public class Product {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@NotNull
 	private String name;
-	
+
 	@NotNull
 	private String description;
 
 	@ManyToOne
 	private Category category;
-	
+
 	@NotNull
 	private double price;
 
@@ -71,5 +73,5 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 }

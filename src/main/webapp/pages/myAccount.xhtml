@@ -33,9 +33,9 @@
 				</tr>
 			</table>
 			<br />
+			<h:outputText value="Your orders: " />
+			<br/>
 			<f:subview rendered="#{!empty userController.customer.orders}">
-				<h:outputText value="Your orders: " />
-				<br />
 				<ui:repeat var="order" value="#{userController.customer.orders}">
 					<br />
 					<div style="border: 1px solid #D6D6D6;">
@@ -50,7 +50,6 @@
 							</ui:repeat>
 						</f:subview>
 					</div>
-
 				</ui:repeat>
 			</f:subview>
 			<f:subview rendered="#{empty userController.customer.orders}">

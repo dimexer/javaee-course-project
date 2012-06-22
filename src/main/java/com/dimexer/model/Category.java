@@ -19,6 +19,7 @@ public class Category {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@NotNull
 	@ManyToOne
 	private Shop shop;
 	

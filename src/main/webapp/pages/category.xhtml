@@ -29,18 +29,19 @@
 				<br />
 			</f:subview>
 
-			<f:subview
-				rendered="#{!empty categoryController.currentCategory.products}">
-				<h:outputText style="font-weight: bold; margin-right:10px;"
-					value="Products:" />
-				<ui:repeat var="prod"
-					value="#{categoryController.currentCategory.products}">
+			<f:subview rendered="#{!empty categoryController.currentCategory.products}">
+				<h:outputText style="font-weight: bold; margin-right:10px;" value="Products:" />
+				<ui:repeat var="prod" value="#{categoryController.currentCategory.products}">
 					<br />
 					<h:outputLink
 						value="#{pageContext.request.contextPath}/web-mall/product/#{prod.id}">
 						<h:outputText value="#{prod.name}" />
 					</h:outputLink>
 				</ui:repeat>
+			</f:subview>
+			
+			<f:subview rendered="#{empty categoryController.currentCategory.subcategories and empty categoryController.currentCategory.products}">
+				<h:outputText value="No products and subcategories for this category..."/>
 			</f:subview>
 			<div class="clear" />
 		</div>

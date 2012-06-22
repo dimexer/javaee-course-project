@@ -33,8 +33,12 @@
 		<view-id value="/pages/category.jsf" />
 		<query-param name="sid">#{cid}</query-param>
 	</url-mapping>
-		<url-mapping id="myaccount">
+	<url-mapping id="myaccount">
 		<pattern value="/myaccount" />
 		<view-id value="/pages/myAccount.jsf" />
+	</url-mapping>
+	<url-mapping id="notfound">
+		<pattern value="/404" />
+		<view-id value="/pages/notfound.jsf" />
 	</url-mapping>
 </pretty-config>

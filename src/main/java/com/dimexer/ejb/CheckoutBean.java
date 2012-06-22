@@ -1,7 +1,5 @@
 package com.dimexer.ejb;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.ejb.Stateless;

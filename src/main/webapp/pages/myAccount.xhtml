@@ -53,6 +53,9 @@
 
 				</ui:repeat>
 			</f:subview>
+			<f:subview rendered="#{empty userController.customer.orders}">
+				<h:outputText value="You still haven't bought anything from the mall..." />
+			</f:subview>
 		</div>
 	</ui:define>
 </ui:composition>

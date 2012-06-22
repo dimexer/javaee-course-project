@@ -2,6 +2,7 @@ package com.dimexer.controller;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -19,25 +20,28 @@ public class CategoryController {
 	@EJB
 	private CategoryBean categoryBean;
 
-	public Category getCurrentCategory() {
-		return currentCategory;
-	}
-
 	@PostConstruct
 	private void initialize() {
-		HttpServletRequest req = (HttpServletRequest) FacesContext
-				.getCurrentInstance().getExternalContext().getRequest();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
 		String idString = req.getParameter("cid");
-
+		NavigationHandler nh = fc.getApplication().getNavigationHandler();
 		Integer id = null;
 		try {
 			id = Integer.parseInt(idString);
 		} catch (Exception ex) {
-			System.out.println("Bad id passed. Can't instantiate category");
+			nh.handleNavigation(fc, null, "pretty:notfound");
 		}
 		if (id != null) {
 			this.currentCategory = categoryBean.loadCategoryById(id);
+			if(this.currentCategory == null){
+				nh.handleNavigation(fc, null, "pretty:notfound");
+			}
 		}
+	}
+
+	public Category getCurrentCategory() {
+		return currentCategory;
 	}
 
 	public void setCurrentCategory(Category currentCategory) {

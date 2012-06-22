@@ -29,7 +29,6 @@ public class CheckoutController {
 		
 		userController.getCart().setProducts(new ArrayList<Product>());
 		userController.getCart().setSize(0);
-		
 		return "pretty:index";
 	}
 

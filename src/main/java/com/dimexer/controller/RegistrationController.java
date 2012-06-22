@@ -44,6 +44,7 @@ public class RegistrationController {
 									"Something's wrong with the registration. Maybe user already exists..."));
 		return null;
 		}
+		
 		this.userController.setCustomer(cust);
 		return "pretty:index";
 	}

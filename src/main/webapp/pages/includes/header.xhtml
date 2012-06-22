@@ -8,14 +8,21 @@
 <body>
 	<div id="header">
 		<div id="logo">
-			<a href="#{pageContext.request.contextPath}/web-mall/"> <h:outputText
-					value="WEB MALL" />
-			</a>
+			<h:outputLink value="#{pageContext.request.contextPath}/web-mall/">
+				<h:outputText value="WEB MALL" />
+			</h:outputLink>
 		</div>
 		<div id="topmenu">
 			<f:subview rendered="#{empty userController.customer}">
-				<a href="#{pageContext.request.contextPath}/web-mall/login">Login</a> |
-				<a href="#{pageContext.request.contextPath}/web-mall/register">Register</a>
+				<h:outputLink
+					value="#{pageContext.request.contextPath}/web-mall/login">
+					<h:outputText value="Login" />
+				</h:outputLink>
+				|
+				<h:outputLink
+					value="#{pageContext.request.contextPath}/web-mall/register">
+					<h:outputText value="Register" />
+				</h:outputLink>
 			</f:subview>
 			<f:subview rendered="${!empty userController.customer}">
 				<div style="float: left;">
@@ -24,14 +31,16 @@
 					<div style="float: left;">
 						<h:form>
 					|
-						<a href="#{pageContext.request.contextPath}/web-mall/myaccount">My
-								account</a> |
+						<h:outputLink value="#{pageContext.request.contextPath}/web-mall/myaccount">
+								<h:outputText value="My account" />
+						</h:outputLink> 
+					|
 						<h:commandLink value="Logout" action="#{loginController.logout}" />
 						</h:form>
 					</div>
 				</div>
 			</f:subview>
-			<dx:cartInfo/>
+			<dx:cartInfo />
 		</div>
 	</div>
 </body>

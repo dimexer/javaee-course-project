@@ -4,12 +4,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.dimexer.ejb.CartBean;
 import com.dimexer.ejb.ProductBean;
 import com.dimexer.model.Product;
 
@@ -22,41 +24,49 @@ public class ProductController {
 
 	@EJB
 	private ProductBean productBean;
-	
-	@ManagedProperty(value="#{userController}")
+
+	@ManagedProperty(value = "#{userController}")
 	private UserController userController;
-	
+
 	@PostConstruct
 	public void initialize() {
-		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-				.getRequest();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		HttpServletRequest req = (HttpServletRequest) fc.getExternalContext().getRequest();
 		String idString = req.getParameter("pid");
+		NavigationHandler nh = fc.getApplication().getNavigationHandler();
 		Integer id = null;
-		
-		try{
+
+		try {
 			id = Integer.parseInt(idString);
+		} catch (Exception ex) {
+			nh.handleNavigation(fc, null, "pretty:notfound");
 		}
-		catch(Exception ex){
-			System.out.println("Bad id passed. Can't get product.");
-		}
-		
+
 		if (id != null) {
-				this.currentProduct = productBean.loadProductById(id);
+			this.currentProduct = productBean.loadProductById(id);
+			if(this.currentProduct == null){
+				nh.handleNavigation(fc, null, "pretty:notfound");
+			}
 		}
 
 	}
-	
-	public Object addToCart(){
-		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+
+	public Object addToCart() {
+		Map<String, String> params = FacesContext.getCurrentInstance()
+				.getExternalContext().getRequestParameterMap();
 		String id = params.get("productId");
-		buyId=id;
-		if(id != null){
-			userController.getCart().getProducts().add(productBean.loadProductById(Integer.valueOf(id)));
-			userController.getCart().setSize(userController.getCart().getSize()+1);
+		buyId = id;
+		if (id != null) {
+			CartBean custCart = userController.getCart();
+			custCart.getProducts().add(
+					productBean.loadProductById(Integer.valueOf(id)));
+			custCart.setSize(custCart.getSize() + 1);
 		}
+
 		return "pretty:productr";
-		
+
 	}
+
 	public Product getCurrentProduct() {
 		return currentProduct;
 	}
@@ -72,9 +82,11 @@ public class ProductController {
 	public void setProductBean(ProductBean productBean) {
 		this.productBean = productBean;
 	}
+
 	public UserController getUserController() {
 		return userController;
 	}
+
 	public void setUserController(UserController userController) {
 		this.userController = userController;
 	}
@@ -86,5 +98,5 @@ public class ProductController {
 	public void setBuyId(String buyId) {
 		this.buyId = buyId;
 	}
-	
+
 }

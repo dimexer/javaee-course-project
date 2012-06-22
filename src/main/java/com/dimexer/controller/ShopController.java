@@ -2,6 +2,7 @@ package com.dimexer.controller;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -24,22 +25,27 @@ public class ShopController {
 
 	@PostConstruct
 	public void initialize() {
+		FacesContext fc = FacesContext.getCurrentInstance();
 		this.availableShops = shopBean.extractAvailableShops();
 
-		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+		HttpServletRequest req = (HttpServletRequest) fc.getExternalContext()
 				.getRequest();
 		String idString = req.getParameter("sid");
+		NavigationHandler nh = fc.getApplication().getNavigationHandler();
 		Integer id = null;
-		
-		try{
-			id = Integer.parseInt(idString);
+		if (idString != null) {
+			try {
+				id = Integer.parseInt(idString);
+			} catch (Exception ex) {
+				nh.handleNavigation(fc, null, "pretty:notfound");
+			}
 		}
-		catch(Exception ex){
-			System.out.println("Bad id passed. Can't instantiate shop");
-		}
-		
+
 		if (id != null) {
-				this.currentShop = shopBean.loadShopById(id);
+			this.currentShop = shopBean.loadShopById(id);
+			if (this.currentShop == null) {
+				nh.handleNavigation(fc, null, "pretty:notfound");
+			}
 		}
 	}
 

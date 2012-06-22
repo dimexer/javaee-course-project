@@ -4,18 +4,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
-
 <ui:composition template="../WEB-INF/template.xhtml">
 	<ui:define name="content">
-		<div id="main">
-			Please, choose your shop first:<br />
-			<ui:repeat var="shop" value="#{shopController.availableShops}">
-				<h:outputLink id="link1"
-					value="#{pageContext.request.contextPath}/web-mall/shop/#{shop.id}">
-					<h:outputText value="#{shop.name}" />
-					<br />
-				</h:outputLink>
-			</ui:repeat>
+		<div id="notfound">
+			<h3><h:outputText value="The requested resource cannot be found!" /></h3>
 		</div>
 	</ui:define>
 </ui:composition>
